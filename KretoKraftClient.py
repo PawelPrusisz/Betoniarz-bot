@@ -1,8 +1,11 @@
 import discord
+import os
+from dotenv import load_dotenv
 
 class KretoKraftClient(discord.Client):
     def __init__(self):
         super().__init__(intents=discord.Intents.all())
+        load_dotenv()
         self.logsChannel:int = 1054732551945719889
 
         # Guilds
@@ -14,7 +17,7 @@ class KretoKraftClient(discord.Client):
 
         # Token
         f = open("token.token", 'r')
-        self.DiscordToken = f.readline()
+        self.DiscordToken = os.getenv('BETONIARZ_TOKEN')
         self.tree = discord.app_commands.CommandTree(self)
 
 
