@@ -16,7 +16,6 @@ class KretoKraftClient(discord.Client):
         self.Baba:discord.Role = None
 
         # Token
-        f = open("token.token", 'r')
         self.DiscordToken = os.getenv('BETONIARZ_TOKEN')
         self.tree = discord.app_commands.CommandTree(self)
 
