@@ -41,16 +41,16 @@ class Betoniarz(KretoKraftClient):
 
     async def messageInBannedChannel(self, message: discord.Message):
         if message.channel.id == DUPA_SRAKA_CHANNEL:
-            await self.kretoKraft._channels[GENERAL_CHANNEL].send(f'Użytkownik <@{message.author.id}> próbował wysłac wiadomość: \"{message.content}\" na kanale <#{self.DupaStrakaChannel}> @everyone')
+            await self.kretoKraft._channels[GENERAL_CHANNEL].send(f'Użytkownik <@{message.author.id}> próbował wysłac wiadomość: \"{message.content}\" na kanale <#{DUPA_SRAKA_CHANNEL}> @everyone')
             await message.delete()
 
     async def roleCheck(self, message: discord.Message):
         for role in message.author.roles:
-            if self.Baba.id == role.id:
+            if 1030785318540034058 == role.id:
                 now = time.time()
                 if now - self.LastSeenBaba > 60:
                     self.LastSeenBaba = now
-                    await self.printCommandDebug(self, f"BABA ALERT {message.author.display_name} BABA ALERT")
+                    await self.printCommandDebug(f"BABA ALERT {message.author.display_name} BABA ALERT")
                     await message.channel.send(f'⚠️UWAGA⚠️ powyższa wiadomośc została wysłana przez k*biete i powinna zostac zignorowana')
 
     async def userTagChecks(self, message: discord.Message):

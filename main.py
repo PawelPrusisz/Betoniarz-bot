@@ -24,11 +24,11 @@ async def self(interaction: discord.Interaction):
 @tree.command(name="clear", description='Clean all messages in the channel', guild=discord.Object(1020307145213890571))
 async def self(interaction: discord.Interaction):
     currentChannel = betoniarz.get_channel(interaction.channel_id)
+    await interaction.response.send_message(f"Done", delete_after=10.0)
     result = await currentChannel.purge(check=lambda x: True)
-
     print(f"\n\n\n{result}")
-    await betoniarz.printCommandDebug(betoniarz, message=f"Deleted all messages in \'{interaction.channel.name}\' channel on {interaction.guild.name} server")
-    await interaction.response.pong()
+    await betoniarz.printCommandDebug(f"Deleted all messages in \'{interaction.channel.name}\' channel on {interaction.guild.name} server")
+    
 
 
     
