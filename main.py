@@ -5,12 +5,13 @@ import anime_images_api
 import random
 from discord_data_constans.users import *
 from Betoniarz import Betoniarz
-from BetonClicker import BetonClicker
+from betoniarzClicker.BetonClicker import BetonClicker
 from datetime import timedelta
-
-
+import sqlite3
+from betoniarzClicker.BetonClickerDB import *
 betoniarz = Betoniarz()
 betoniarz_clicker = BetonClicker(betoniarz)
+betonClickerDB = BetonClickerDB()
 tree = betoniarz.tree 
 
 @tree.command(name="beton", description='Betoniarze!', guild=betoniarz.kretoKraft)
@@ -32,10 +33,11 @@ async def self(interaction: discord.Interaction):
     await betoniarz.printCommandDebug(f"Deleted all messages in \'{interaction.channel.name}\' channel on {interaction.guild.name} server")
 
 @tree.command(name="mine", description='mine', guild=betoniarz.kretoKraft)
-@discord.app_commands.checks.cooldown(1,30)
+@discord.app_commands.checks.cooldown(1,3)
 async def self(interaction: discord.Interaction):
     await betoniarz.printCommandDebug(message=f"{interaction.user.name} używa /mine na serwerze {interaction.guild.name}")
     await betoniarz_clicker.mine(interaction)
+
 
 @self.error
 async def mineError(interaction: discord.Interaction, error: discord.app_commands.AppCommandError):
@@ -45,6 +47,5 @@ async def mineError(interaction: discord.Interaction, error: discord.app_command
 
 
 
-    
-
+betonClickerDB.build()
 betoniarz.run(betoniarz.DiscordToken)
