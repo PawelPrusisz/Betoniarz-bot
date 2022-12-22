@@ -13,11 +13,6 @@ class BetonClicker():
         tree = betoniarz.tree 
         self.betonClickerDB = BetonClickerDB()
 
-
-    @staticmethod
-    async def hello():
-        print("BetonClicker says")
-
     async def mine(self, interaction: discord.Interaction):
         mined_beton = randint(1,5)
         self.betonClickerDB.add_beton(interaction.user.id, mined_beton)
