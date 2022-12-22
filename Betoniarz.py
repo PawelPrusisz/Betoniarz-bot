@@ -70,7 +70,7 @@ class Betoniarz(KretoKraftClient):
             elif f'<@{TRELA}>' in message.content:
                 await self.handle_message(message,'Trela prosze powiedz kim jesteś')
             elif f'<@{BETONIARZ}>' in message.content:
-                await self.handle_message(message,f'<@{message.author.id}> ty jebany betoniarzu')
+                await self.handle_message(message,f'ty jebany betoniarzu')
             elif f'<@&{self.Anime.id}>' in message.content:
                 await self.hande_anime_message(message)
             else:
@@ -87,6 +87,7 @@ class Betoniarz(KretoKraftClient):
             animegirl = self.AnimeAPI.get_sfw(random.choice(self.animeOpions))
         embed = discord.Embed()
         embed.set_image(url = animegirl)
+        print(animegirl)
         await self.printCommandDebug(f'Łap anime dzieczynke zboczeńcu <@{message.author.id}>')
         if nsfw:
             await message.channel.send(content=f'Łap anime dzieczynke zboczeńcu <@{message.author.id}>', embed=embed, delete_after=3.0)
