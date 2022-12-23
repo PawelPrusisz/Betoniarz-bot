@@ -19,11 +19,9 @@ class BetonClicker():
         await interaction.response.send_message(f"<@{interaction.user.id}> kopie b b b b beton!")
         await interaction.followup.send(f"<@{interaction.user.id}> wykopał {mined_beton} betonu!")
     async def show_beton(self, interaction: discord.Interaction):
-        if self.betonClickerDB.record(f"SELECT * FROM users WHERE UserID = ?", interaction.user.id):
-            data = self.betonClickerDB.record(f"SELECT * FROM users WHERE UserID = ?", interaction.user.id)
-        else:
-            self.betonClickerDB.execute(f"INSERT INTO users VALUES (?, ?, ?, ?)", interaction.user.id, 0, 0, 0)
-            data = self.betonClickerDB.record(f"SELECT * FROM users WHERE UserID = ?", interaction.user.id)
+        if not (self.betonClickerDB.record(f"SELECT * FROM users WHERE UserID = ?", interaction.user.id)):
+            self.betonClickerDB.execute(f"INSERT INTO users (UserID, Level, Money, Beton) VALUES (?, ?, ?, ?)", interaction.user.id, 0, 0, 0)
+        data = self.betonClickerDB.record(f"SELECT * FROM users WHERE UserID = ?", interaction.user.id)
         level = data[1]
         money = data[2]
         beton = data[3]
