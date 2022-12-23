@@ -1,11 +1,11 @@
 from KretoKraftClient import KretoKraftClient
 import discord
 import time
-import re
 import anime_images_api
 import random
 from discord_data_constans.users import *
 from discord_data_constans.channels import *
+
 
 class Betoniarz(KretoKraftClient):
     def __init__(self):
@@ -13,11 +13,11 @@ class Betoniarz(KretoKraftClient):
         self.synced = False
 
         # API
-        self.AnimeAPI:anime_images_api.Anime_Images = anime_images_api.Anime_Images()
-        
+        self.AnimeAPI: anime_images_api.Anime_Images = anime_images_api.Anime_Images()
+
         # Misc
-        self.LastSeenBaba:int = 0
-        self.UserTagcooldown:int = 0
+        self.LastSeenBaba: int = 0
+        self.UserTagCooldown: int = 0
         self.animeOpions = ['hug', 'kiss', 'cuddle', 'pat', 'wink']
         self.animeOpionsNSFW = ['boobs', 'hentai']
 
@@ -34,62 +34,63 @@ class Betoniarz(KretoKraftClient):
 
     async def on_message(self, message: discord.Message):
         if message.author.id != BETONIARZ:
-            await self.userTagChecks(message)
-            await self.roleCheck(message)
-            await self.messageInBannedChannel(message)
-            await self.printDebug(message=message)
+            await self.user_tag_checks(message)
+            await self.role_check(message)
+            await self.message_in_banned_channel(message)
+            await self.print_debug(message=message)
 
-    async def messageInBannedChannel(self, message: discord.Message):
+    async def message_in_banned_channel(self, message: discord.Message):
         if message.channel.id == DUPA_SRAKA_CHANNEL:
-            await self.kretoKraft._channels[GENERAL_CHANNEL].send(f'Użytkownik <@{message.author.id}> próbował wysłac wiadomość: \"{message.content}\" na kanale <#{DUPA_SRAKA_CHANNEL}> @everyone')
+            await self.kretoKraft.channels[GENERAL_CHANNEL].send(
+                f'Użytkownik <@{message.author.id}> próbował wysłac wiadomość: \"{message.content}\" na kanale <#{DUPA_SRAKA_CHANNEL}> @everyone')
             await message.delete()
 
-    async def roleCheck(self, message: discord.Message):
+    async def role_check(self, message: discord.Message):
         for role in message.author.roles:
             if 1030785318540034058 == role.id:
                 now = time.time()
                 if now - self.LastSeenBaba > 60:
                     self.LastSeenBaba = now
                     await self.printCommandDebug(f"BABA ALERT {message.author.display_name} BABA ALERT")
-                    await message.channel.send(f'⚠️UWAGA⚠️ powyższa wiadomośc została wysłana przez k*biete i powinna zostac zignorowana')
+                    await message.channel.send(
+                        f'⚠️UWAGA⚠️ powyższa wiadomośc została wysłana przez k*biete i powinna zostac zignorowana')
 
-    async def userTagChecks(self, message: discord.Message):
+    async def user_tag_checks(self, message: discord.Message):
         now = time.time()
-        if now - self.UserTagcooldown > 5: 
+        if now - self.UserTagCooldown > 5:
             print(f"anime: {self.Anime.id}")
-            if f'<@{SEBA}>' in message.content: 
+            if f'<@{SEBA}>' in message.content:
                 await self.handle_message(message, '⚠️BOOMER ALERT⚠️')
             elif f'<@{HYBRID}>' in message.content:
-                await self.handle_message(message,'⚠️BABA ALERT⚠️')
+                await self.handle_message(message, '⚠️BABA ALERT⚠️')
             elif f'<@{MONTYSZ}>' in message.content:
-                await self.handle_message(message,'⚠️ANIME ALERT⚠️')
+                await self.handle_message(message, '⚠️ANIME ALERT⚠️')
             elif f'<@{PAWULENKO}>' in message.content:
-                await self.handle_message(message,'⚠️ESO ALERT⚠️')
+                await self.handle_message(message, '⚠️ESO ALERT⚠️')
             elif f'<@{KRETO}>' in message.content:
-                await self.handle_message(message,'⚠️SCAM ALERT⚠️')
+                await self.handle_message(message, '⚠️SCAM ALERT⚠️')
             elif f'<@{TRELA}>' in message.content:
-                await self.handle_message(message,'Trela prosze powiedz kim jesteś')
+                await self.handle_message(message, 'Trela prosze powiedz kim jesteś')
             elif f'<@{BETONIARZ}>' in message.content:
-                await self.handle_message(message,f'<@{message.author.id}> ty jebany betoniarzu')
+                await self.handle_message(message, f'<@{message.author.id}> ty jebany betoniarzu')
             elif f'<@&{self.Anime.id}>' in message.content:
                 await self.hande_anime_message(message)
             else:
                 return
-            self.UserTagcooldown = now
-
+            self.UserTagCooldown = now
 
     async def hande_anime_message(self, message: discord.Message):
         nsfw = 'nsfw' in message.content.lower()
         if nsfw:
-            animegirl = self.AnimeAPI.get_nsfw(random.choice(self.animeOpionsNSFW))
+            anime_girl = self.AnimeAPI.get_nsfw(random.choice(self.animeOpionsNSFW))
             nsfw = True
         else:
-            animegirl = self.AnimeAPI.get_sfw(random.choice(self.animeOpions))
+            anime_girl = self.AnimeAPI.get_sfw(random.choice(self.animeOpions))
         embed = discord.Embed()
-        embed.set_image(url = animegirl)
-        await self.printCommandDebug(f'Łap anime dzieczynke zboczeńcu <@{message.author.id}>')
+        embed.set_image(url=anime_girl)
+        await self.print_command_debug(f'Łap anime dzieczynke zboczeńcu <@{message.author.id}>')
         if nsfw:
-            await message.channel.send(content=f'Łap anime dzieczynke zboczeńcu <@{message.author.id}>', embed=embed, delete_after=3.0)
+            await message.channel.send(content=f'Łap anime dzieczynke zboczeńcu <@{message.author.id}>', embed=embed,
+                                       delete_after=3.0)
         else:
             await message.channel.send(content=f'Łap anime dzieczynke zboczeńcu <@{message.author.id}>', embed=embed)
-
