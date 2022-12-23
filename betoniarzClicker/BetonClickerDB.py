@@ -9,14 +9,13 @@ cxn = connect(DB_PATH, check_same_thread=False)
 cur = cxn.cursor()
 
 class BetonClickerDB():
-
 	@staticmethod
 	def with_commit( func):
 		def inner(*args, **kwargs):
 			func(*args, **kwargs)
 			cxn.commit()
 		return inner
-
+	
 	@with_commit
 	def build(self):
 		if isfile(BUILD_PATH):
