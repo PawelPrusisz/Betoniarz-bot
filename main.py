@@ -38,6 +38,11 @@ async def self(interaction: discord.Interaction):
     await betoniarz.printCommandDebug(message=f"{interaction.user.name} używa /mine na serwerze {interaction.guild.name}")
     await betoniarz_clicker.mine(interaction)
 
+@tree.command(name="show_beton", description='Show user data', guild=betoniarz.kretoKraft)
+async def self(interaction: discord.Interaction):
+    await betoniarz.printCommandDebug(message=f"{interaction.user.name} używa /show_beton na serwerze {interaction.guild.name}")
+    await betoniarz_clicker.show_beton(interaction)
+
 
 @self.error
 async def mineError(interaction: discord.Interaction, error: discord.app_commands.AppCommandError):
